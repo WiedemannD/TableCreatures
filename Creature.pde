@@ -614,6 +614,7 @@ class Creature
         
       case 1: // twitter alien
         
+        
         break;
     }
   }
