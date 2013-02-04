@@ -1,0 +1,10 @@
+tresh = 71
+fade = 55
+om = 0
+videores = 128
+videotex = 3
+trackedBlobLifetime = 5
+edgeTresh = 0.51999986
+posDiscrimination = true
+debug = true
+creatureExcess = 2
