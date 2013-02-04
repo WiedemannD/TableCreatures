@@ -10,6 +10,7 @@ class Face
   Boolean drawBackground = false;
   int mouthType = 0;
   int eyeType = 0;
+  int eyeCount = 2;
   int specialType = -1;
   int character = 0;
   Boolean dying = false;
@@ -28,11 +29,12 @@ class Face
   AniSequence aniSpecial;
   Boolean animateSpecial = false;
   
-  Face(int eType, int mType, color backgroundColor)
+  Face(int eType, int mType, color backgroundColor, int eC)
   {
     mouthType = mType;
     eyeType = eType;
     bgCol = backgroundColor;
+    eyeCount = eC;
     
     setAniMouthScale();
     setAniEyeMove();
@@ -80,30 +82,61 @@ class Face
           switch(eyeType)
           {
             case 0: // open
-              o.ellipse(-5, 0, strokeWeight + 1, strokeWeight + 1);
-              o.ellipse(5, 0, strokeWeight + 1, strokeWeight + 1);
+              if(eyeCount == 2)
+              {
+                o.ellipse(-5, 0, strokeWeight + 1, strokeWeight + 1);
+                o.ellipse(5, 0, strokeWeight + 1, strokeWeight + 1);
+              }
+              if(eyeCount == 1)
+              {
+                o.ellipse(0, 0, strokeWeight + 1, strokeWeight + 1);
+              }
+              
               break;
               
             case 1: // rage eyes
-              o.arc(-4, 0, strokeWeight + 4, strokeWeight + 4, radians(20), radians(200));
-              o.arc(4, 0, strokeWeight + 4, strokeWeight + 4, radians(-20), radians(160));
+              if(eyeCount == 2)
+              {
+                o.arc(-4, 0, strokeWeight + 4, strokeWeight + 4, radians(20), radians(200));
+                o.arc(4, 0, strokeWeight + 4, strokeWeight + 4, radians(-20), radians(160));
+              }
+              if(eyeCount == 1)
+              {
+                o.arc(0, 0, strokeWeight + 4, strokeWeight + 4, radians(0), radians(180));
+              }
+              
               break;
               
             case 2: // dead eyes, crosses
-              o.pushMatrix();
-                o.scale(2);
-                o.translate(-2.5, -1);
-                o.rotate(radians(45));
-                o.rect(-1.25, 0, strokeWeight + 1, strokeWeight / 2);
-                o.rotate(radians(-90));
-                o.rect(-2.75, 0, strokeWeight + 1, strokeWeight / 2);
-                o.rotate(radians(45));
-                o.translate(5, 0);
-                o.rotate(radians(45));
-                o.rect(-1.25, 0, strokeWeight + 1, strokeWeight / 2);
-                o.rotate(radians(-90));
-                o.rect(-2.75, 0, strokeWeight + 1, strokeWeight / 2);
-              o.popMatrix();
+              if(eyeCount == 2)
+              {
+                o.pushMatrix();
+                  o.scale(2);
+                  o.translate(-2.5, -1);
+                  o.rotate(radians(45));
+                  o.rect(-1.25, 0, strokeWeight + 1, strokeWeight / 2);
+                  o.rotate(radians(-90));
+                  o.rect(-2.75, 0, strokeWeight + 1, strokeWeight / 2);
+                  o.rotate(radians(45));
+                  o.translate(5, 0);
+                  o.rotate(radians(45));
+                  o.rect(-1.25, 0, strokeWeight + 1, strokeWeight / 2);
+                  o.rotate(radians(-90));
+                  o.rect(-2.75, 0, strokeWeight + 1, strokeWeight / 2);
+                o.popMatrix();
+              }
+              if(eyeCount == 1)
+              {
+                o.pushMatrix();
+                  o.scale(2);
+                  o.translate(0, -1);
+                  o.rotate(radians(45));
+                  o.rect(-1.25, 0, strokeWeight + 1, strokeWeight / 2);
+                  o.rotate(radians(-90));
+                  o.rect(-2.75, 0, strokeWeight + 1, strokeWeight / 2);
+                o.popMatrix();
+              }
+              
               break;
               
             default: // nothing
@@ -114,8 +147,16 @@ class Face
         {
           // closed blink eyes
           o.translate(eyeMoveX - 2, 4);
-          o.rect(-5, 0, strokeWeight + 1, strokeWeight / 2);
-          o.rect(5, 0, strokeWeight + 1, strokeWeight / 2);
+          
+          if(eyeCount == 2)
+          {
+            o.rect(-5, 0, strokeWeight + 1, strokeWeight / 2);
+            o.rect(5, 0, strokeWeight + 1, strokeWeight / 2);
+          }
+          if(eyeCount == 1)
+          {
+            o.rect(0, 0, strokeWeight + 1, strokeWeight / 2);
+          }
         }
         
       o.popMatrix();

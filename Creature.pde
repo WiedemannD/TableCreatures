@@ -24,7 +24,7 @@ class Creature
   Boolean bodyPartsMoving = true;
   Boolean drawBodyParts = true;
   ArrayList bodyParts;
-  ArrayList anis = new ArrayList(); 
+  ArrayList anis = new ArrayList();
   
   Boolean growing = false;
   float growingTime = 20.0;
@@ -84,6 +84,11 @@ class Creature
         type = int(random(0, typeCount));
       }
       
+      
+      float aniTime, delay, movement, startPos;
+      Ani ani1, ani2, ani3, ani4, ani5;
+      AniSequence aniSeq1;
+      
       switch(type)
       {
         case 0: // eating worm
@@ -97,17 +102,17 @@ class Creature
           bodyParts.add(new BodyPart(0, unitSize * 4, 5, unitSize * 1, unitSize * 1, 0, cTable.findColour(random(0, 1))));
           bodyParts.add(new BodyPart(0, unitSize * 5, 5, unitSize * 1, unitSize * 1, 0, cTable.findColour(random(0, 1))));
   
-          float aniTime = 0.8; 
-          float delay = 0.15;
-          float movement = (unitSize * 2) - 5;
+          aniTime = 0.8; 
+          delay = 0.15;
+          movement = (unitSize * 2) - 5;
   
-          Ani ani1 = new Ani(bodyParts.get(1), aniTime, "y", movement, Ani.LINEAR);
+          ani1 = new Ani(bodyParts.get(1), aniTime, "y", movement, Ani.LINEAR);
           anis.add(ani1);
-          Ani ani2 = new Ani(bodyParts.get(2), aniTime - delay, delay, "y", movement, Ani.LINEAR);
+          ani2 = new Ani(bodyParts.get(2), aniTime - delay, delay, "y", movement, Ani.LINEAR);
           anis.add(ani2);
-          Ani ani3 = new Ani(bodyParts.get(3), aniTime - (delay * 2), delay * 2, "y", movement, Ani.LINEAR);
+          ani3 = new Ani(bodyParts.get(3), aniTime - (delay * 2), delay * 2, "y", movement, Ani.LINEAR);
           anis.add(ani3);
-          Ani ani4 = new Ani(bodyParts.get(4), aniTime - (delay * 3), delay * 3, "y", movement, Ani.LINEAR);
+          ani4 = new Ani(bodyParts.get(4), aniTime - (delay * 3), delay * 3, "y", movement, Ani.LINEAR);
           anis.add(ani4);
   
           for (int i = 0; i < anis.size(); i++)
@@ -118,49 +123,53 @@ class Creature
             ani.repeat();
           }
   
+          face = new Face(0, 0, col, 2);
   
           break;
         
         case 1: // twitter alien
           indiSpeed = 1.0;
-  
+          startPos = (-unitSize * 1.5) + 1;
+          
           col = cTable.findColour(random(0, 1));
-  
-          bodyParts.add(new BodyPart(1, 0, unitSize, 40, 40, 0, col));
-          /*bodyParts.add(new BodyPart(0, unitSize * 2, 5, unitSize * 1, unitSize * 1, 0, cTable.findColour(random(0, 1))));
-          bodyParts.add(new BodyPart(0, unitSize * 3, 5, unitSize * 1, unitSize * 1, 0, cTable.findColour(random(0, 1))));
-          bodyParts.add(new BodyPart(0, unitSize * 4, 5, unitSize * 1, unitSize * 1, 0, cTable.findColour(random(0, 1))));
-          bodyParts.add(new BodyPart(0, unitSize * 5, 5, unitSize * 1, unitSize * 1, 0, cTable.findColour(random(0, 1))));*/
-  
-          /*float aniTime = 0.8; 
-          float delay = 0.15;
-          float movement = (unitSize * 2) - 5;
-  
-          Ani ani1 = new Ani(bodyParts.get(1), aniTime, "y", movement, Ani.LINEAR);
+          
+          
+          bodyParts.add(new BodyPart(1, 0, unitSize, 40, 40, 0, col)); // head
+          bodyParts.add(new BodyPart(2, startPos + 2, 34, unitSize + 2, unitSize + 2, 0, col));
+          bodyParts.add(new BodyPart(2, (unitSize * 2.5) - 1, 34, unitSize + 2, unitSize + 2, 0, col));
+          
+          bodyParts.add(new BodyPart(2, -unitSize * 1.5, 34, unitSize, unitSize, 0, col));
+          bodyParts.add(new BodyPart(2, -unitSize * 0.5, 34, unitSize, unitSize, 0, col));
+          bodyParts.add(new BodyPart(2,  unitSize * 0.5, 34, unitSize, unitSize, 0, col));
+          bodyParts.add(new BodyPart(2,  unitSize * 1.5, 34, unitSize, unitSize, 0, col));
+          
+          aniTime = 0.6; 
+          movement = (unitSize * 2.5);
+          
+          ani1 = new Ani(bodyParts.get(3), aniTime, "x", -unitSize * 0.5, Ani.LINEAR);
           anis.add(ani1);
-          Ani ani2 = new Ani(bodyParts.get(2), aniTime - delay, delay, "y", movement, Ani.LINEAR);
+          ani2 = new Ani(bodyParts.get(4), aniTime, "x",  unitSize * 0.5, Ani.LINEAR);
           anis.add(ani2);
-          Ani ani3 = new Ani(bodyParts.get(3), aniTime - (delay * 2), delay * 2, "y", movement, Ani.LINEAR);
+          ani3 = new Ani(bodyParts.get(5), aniTime, "x",  unitSize * 1.5, Ani.LINEAR);
           anis.add(ani3);
-          Ani ani4 = new Ani(bodyParts.get(4), aniTime - (delay * 3), delay * 3, "y", movement, Ani.LINEAR);
+          ani4 = new Ani(bodyParts.get(6), aniTime, "x",  unitSize * 2.5, Ani.LINEAR);
           anis.add(ani4);
-  
+         
           for (int i = 0; i < anis.size(); i++)
           {
             Ani ani = (Ani) anis.get(i);
   
-            ani.setPlayMode(Ani.YOYO);
             ani.repeat();
-          }*/
-  
+          }
+          
+          
+          face = new Face(0, 0, col, 1);
   
           break;
       }
-
-      face = new Face(0, 0, col);
     }
   }
-
+  
   void draw()
   {
     if(!stop)
@@ -226,7 +235,7 @@ class Creature
     ////////////////
     else
     {
-      for (int i = 0; i < trackedObjects.size(); i++)
+      for(int i = 0; i < trackedObjects.size(); i++)
       {
         TrackedObject tO = (TrackedObject) trackedObjects.get(i);
         currentDist = dist(x, y, tO.x, tO.y);
@@ -237,8 +246,25 @@ class Creature
         ////////////////
         if (!growing && !cInteracting && tO.occupied && currentDist <= occupationDist)
         {
-          action = 0;
-          destTO = tO;
+          Boolean probableConflictingOccupation = false;
+          
+          for(int j = 0; j < creatures.size(); j++)
+          {
+            Creature otherC = (Creature) creatures.get(j);
+            
+            if(otherC != this && otherC.occupying && dist(x, y, otherC.x, otherC.y) <= occupationDist * 2)
+            {
+              probableConflictingOccupation = true;
+              //println("probableConflictingOccupation");
+            }
+          }
+          
+          if(!probableConflictingOccupation)
+          {
+            action = 0;
+            destTO = tO;
+          }
+          
           break;
         }
         ////////////////
@@ -360,7 +386,8 @@ class Creature
         //println("randomDest "+randomDest.x+"  "+randomDest.y);
       }
       
-      action = 6;
+      
+      //action = 6;
     }
 
     //println(creatures.indexOf(this)+"   action "+action);
@@ -372,7 +399,7 @@ class Creature
     switch(action)
     {
       case -1: // do something else or nothing maybe
-        stopBodyParts();
+        //stopBodyParts();
         break;
   
       case 0: // keep occupying
@@ -579,11 +606,15 @@ class Creature
 
     switch(type)
     {
-    case 0: // eating worm
-      drawBodyParts = false;
-      drawTrackedObjectShape(tO);
-      transformFace(tO);
-      break;
+      case 0: // eating worm
+        drawBodyParts = false;
+        drawTrackedObjectShape(tO);
+        transformFace(tO);
+        break;
+        
+      case 1: // twitter alien
+        
+        break;
     }
   }
   
@@ -592,12 +623,71 @@ class Creature
   //////////////////
   PVector stepToDest(PVector currentPos, PVector destPos, float speed)
   {
-    destPos.sub(currentPos); // set destPos from (0|0)
-    destPos.normalize(); // normalize destPos
-    destPos.mult(speed); // multiply by speed
-    currentPos.add(destPos); // add calculated step to currentPos
+    PVector nextStep = currentPos;
+    PVector movementToDest = PVector.sub(destPos, currentPos); // set destPos from (0|0)
+    movementToDest.normalize(); // normalize destPos      
+    movementToDest.mult(speed); // multiply by speed
+    nextStep = PVector.add(currentPos, movementToDest); // add calculated step to currentPos
     
-    return currentPos;
+    return nextStep;
+    
+    /*
+    MOVE AROUND CODE NOT WORKING
+    
+    PVector nextStep = currentPos;
+    Boolean occupyingInFront = false;
+    Creature cInFront = null;
+    float moveAroundFact = 1.3;
+    
+    PVector movementToDest = PVector.sub(destPos, currentPos); // set destPos from (0|0)
+    
+    while(nextStep == currentPos || occupyingInFront)
+    {
+      println("movearound1 "+movementToDest);
+      
+      if(occupyingInFront)
+      {
+        if(movementToDest.x > movementToDest.y) // more or less horizontal movement
+        {
+          movementToDest.y = movementToDest.y + 5;//* moveAroundFact;
+        }
+        else // more or less vertical movement
+        {
+          movementToDest.x = movementToDest.x + 5;// * moveAroundFact;
+        }  
+      }
+      
+      println("movearound2 "+movementToDest);
+      
+      movementToDest.normalize(); // normalize destPos      
+      movementToDest.mult(speed); // multiply by speed
+      nextStep = PVector.add(currentPos, movementToDest); // add calculated step to currentPos
+      
+      occupyingInFront = false;
+      
+      if(cInFront == null)
+      {
+        for(int i = 0; i < creatures.size(); i++)
+        {
+          Creature c = (Creature) creatures.get(i);
+  
+          if(c != this && c.occupying && dist(nextStep.x, nextStep.y, c.x, c.y) <= moveAroundDist)
+          {
+            occupyingInFront = true;
+            cInFront = c;
+          }
+        }
+      }
+      else
+      {
+        if(dist(nextStep.x, nextStep.y, cInFront.x, cInFront.y) <= moveAroundDist)
+        {
+          occupyingInFront = true;
+        }
+      }
+    }
+    
+    return nextStep;*/
   }
   
   //////////////////

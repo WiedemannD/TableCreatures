@@ -17,6 +17,7 @@ class BodyPart
   
   void draw()
   {
+    o.pushMatrix();
     o.pushStyle();
       o.rectMode(CENTER);
       o.noStroke();
@@ -30,10 +31,17 @@ class BodyPart
           
         case 1: // alien shape
           o.tint(col);
+          o.translate(-20, -20);
           o.image(config.type_1, x, y, w, h);
+          break;
+        
+        case 2: // circle
+          o.translate(-w / 2, -h / 2);
+          o.ellipse(x, y, w, h);
           break;  
       }
     
     o.popStyle();
+    o.popMatrix();
   }
 }

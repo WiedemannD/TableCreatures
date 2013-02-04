@@ -20,6 +20,7 @@ int cHeight = 240;
 int occupationDist = 30; 
 int cInteractionDist = 30;
 int randomDestDist = 10;
+int moveAroundDist = 50;
 
 int fps = 60;
 int camId = 0;
@@ -39,7 +40,7 @@ Boolean drawFlobs = false;
 Boolean drawTrackedObjects = false;
 Boolean drawStats = true;
 Boolean mouseKlickSound = false;
-Boolean populateCreatures = true;
+Boolean populateCreatures = false;
 int generalCalibration = -1;
 
 // keystone vars
@@ -86,22 +87,23 @@ void setup(){
   setupTweets();
   
   
-  /*
+  
   // test creatures
   Creature c1 = new Creature(true, null, 1, false);
-  c1.x = 350;
-  c1.y = 350;
+  c1.x = 200;
+  c1.y = vHeight / 2;
   c1.name = "c1";
+  //c1.randomDest = new PVector(vWidth, vHeight / 2);
   //c1.face.love();
   //c.col = color(200, 50, 200);
   creatures.add(c1);
-  */
+  
   /*
-  Creature c2 = new Creature(true, null, -1, true);
+  Creature c2 = new Creature(true, null, -1, false);
   c2.x = 400;
-  c2.y = 400;
+  c2.y = vHeight / 2;
   c2.name = "c2";
-  //creatures.add(c2);
+  creatures.add(c2);
   */
 }
 
