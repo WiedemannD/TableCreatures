@@ -107,6 +107,12 @@ void setup(){
   c2.name = "c2";
   creatures.add(c2);
   
+  Creature c3 = new Creature(true, null, 1, false);
+  c3.x = 500;
+  c3.y = 700;
+  c3.name = "c3";
+  creatures.add(c3);
+  
 }
 
 

@@ -8,6 +8,7 @@ class TweetAni extends GroundEffect
   int textHeight = 30;
   TweetsTweet tweet;
   String txt = "";
+  Boolean isAnimating = true;
   
   TweetAni(float posX, float posY, float posDX, float posDY, float r, color c)
   {
@@ -20,6 +21,8 @@ class TweetAni extends GroundEffect
     aniX = dist(x, y, destX, destY);
     
     canvas = createGraphics(int(aniX), textHeight, JAVA2D);
+    
+    isAnimating = true;
   }
   
   void draw()
@@ -32,6 +35,8 @@ class TweetAni extends GroundEffect
         tweet = (TweetsTweet) tweets.tweets.get(index);
         txt = tweet.user + ": " + tweet.text;
         txt = txt.toUpperCase();
+        
+        Sound sound = new Sound(Sound.TYPE_TWEET, x, y);
       }
     }
     else
@@ -91,5 +96,6 @@ class TweetAni extends GroundEffect
   void remove()
   {
     groundEffects.remove(this);
+    isAnimating = false;
   }
 }

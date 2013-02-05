@@ -29,8 +29,10 @@ class Creature
   Boolean growing = false;
   float growingTime = 20.0;
   Ani growingAni;
+  
   Boolean occupying = false;
   GroundEffect occupyingEffect = null;
+  
   Boolean cInteracting = false;
   int cInteraction = 0;
   Boolean cInteractionDominant = true;
@@ -40,12 +42,17 @@ class Creature
   float intAniY = 0;
   float intRot = 0;
   Creature linkedCreature;
+  
   PVector randomDest;
   int randMovementSince = -1;
   float randMovementSoundAfter = 30.0; // sec
   Boolean movingAway = false;
+  
   Sound sound;
+  
   TweetAni currentTweetAni = null;
+  int lastTweetSent = -1;
+  int tweetAfter = 30; // sec
 
 
   Creature(Boolean autoRandom, ColourTable cT, int t, Boolean cGrowing)
@@ -663,7 +670,7 @@ class Creature
       case 1: // twitter alien
         scaleUpDown(tO);
         animateOccupyingEffect(occupying);
-        sendTweet();
+        sendTweets();
         break;
     }
   }
@@ -869,12 +876,38 @@ class Creature
     }
   }
   
-  void sendTweet()
+  void sendTweets()
   {
-    if(currentTweetAni == null)
+    int randFrameCount = randomInt(0, int(frameRate * 5));
+    
+    if(currentTweetAni == null && (lastTweetSent == -1 || frameCount >= lastTweetSent + (tweetAfter * frameRate) + randFrameCount))
     {
-      TweetAni t = new TweetAni(50, 50, 400, 400, 0, color(0, 255, 0));
-      groundEffects.add(t);
+      ArrayList otherOccupyingCreaturesType1 = new ArrayList();
+      
+      for(int i = 0; i < creatures.size(); i++)
+      {
+        Creature c = (Creature) creatures.get(i);
+        
+        if(c != this && c.type == 1 && c.occupying)
+        {
+          otherOccupyingCreaturesType1.add(c);
+        }
+      }
+      
+      if(otherOccupyingCreaturesType1.size() > 0)
+      {
+        Creature randType1 = (Creature) otherOccupyingCreaturesType1.get(randomInt(0, otherOccupyingCreaturesType1.size() -1)); 
+        
+        TweetAni t = new TweetAni(x, y, randType1.x, randType1.y, 0, col);
+        groundEffects.add(t);
+        
+        lastTweetSent = frameCount;
+      }
+    }
+    else if(currentTweetAni != null && !currentTweetAni.isAnimating)
+    {
+      currentTweetAni = null;
+      lastTweetSent = frameCount;
     }
   }
   
