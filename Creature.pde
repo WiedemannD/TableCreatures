@@ -41,6 +41,8 @@ class Creature
   float intRot = 0;
   Creature linkedCreature;
   PVector randomDest;
+  int randMovementSince = -1;
+  float randMovementSoundAfter = 30.0; // sec
   Boolean movingAway = false;
   Sound sound;
 
@@ -405,10 +407,12 @@ class Creature
     {
       case -1: // do something else or nothing maybe
         //stopBodyParts();
+        setRandomMovement(false);
         unOccupyTrackedObject();
         break;
   
       case 0: // keep occupying
+        setRandomMovement(false);
         occupyTrackedObject(destTO);
         break;
   
@@ -417,6 +421,7 @@ class Creature
         break;
   
       case 2: // move to next unoccupied trackedObject
+        setRandomMovement(false);
         unOccupyTrackedObject();
         face.smile(true);
   
@@ -440,6 +445,7 @@ class Creature
         break;
   
       case 3: // move to next not occupying and not interacting creature
+        setRandomMovement(false);
         unOccupyTrackedObject();
         face.smile(true);
   
@@ -460,6 +466,7 @@ class Creature
         break;
         
       case 4: // interacting with another creature
+        setRandomMovement(false);
         unOccupyTrackedObject();
         
         // animate interaction        
@@ -536,6 +543,8 @@ class Creature
           movingAway = false;
         }
         
+        setRandomMovement(true);
+        
         break;
     }
 
@@ -553,7 +562,27 @@ class Creature
       rot = lerp(rot, rotToDest(c, d), lerpRot);
     }
   }
-
+  
+  void setRandomMovement(Boolean state)
+  {
+    if(state)
+    {
+      if(randMovementSince == -1)
+      {
+        randMovementSince = frameCount;
+      }
+      else if(frameCount >= randMovementSince + (randMovementSoundAfter * frameRate))
+      {
+        sound = new Sound(randomInt(Sound.TYPE_SINGING, Sound.TYPE_GIGGLE3), x, y);
+        randMovementSince = frameCount;
+      }
+    }
+    else
+    {
+      randMovementSince = -1;
+    }
+  }
+  
   void cInteract(Creature destC, int interaction, Boolean dominant, int interactionEnd)//, int interaction, Boolean interactionDominant)
   {
     // general creature behaviour

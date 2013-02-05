@@ -24,11 +24,9 @@ public class Sound
   public static final int TYPE_AWW = 10;
   public static final int TYPE_UHOH2 = 11;
   
-  // (singing)
+  // random movement
   public static final int TYPE_SINGING = 12;
   public static final int TYPE_SINGING2 = 13;
-  
-  // (giggling)
   public static final int TYPE_GIGGLE = 14;
   public static final int TYPE_GIGGLE2 = 15;
   public static final int TYPE_GIGGLE3 = 16;
