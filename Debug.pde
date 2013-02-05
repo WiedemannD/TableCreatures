@@ -17,6 +17,7 @@ void drawStats()
   rect(5,5,flob.getPresencef()*width,5);
   
   String stats = "fps: "+frameRate+
+                 "\ncamZoom:"+config.camZoom+" <z/Z>"+
                  "\ncreatures: "+creatures.size()+
                  "\ncreatureExcess: "+config.creatureExcess+" <x/X>"+
                  "\ngroundEffects: "+groundEffects.size()+

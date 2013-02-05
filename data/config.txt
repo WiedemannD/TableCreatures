@@ -8,3 +8,4 @@ edgeTresh = 0.39999998
 posDiscrimination = true
 debug = true
 creatureExcess = 2
+camZoom = 0

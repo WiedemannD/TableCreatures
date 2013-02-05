@@ -1,3 +1,8 @@
+int camZoomAspect(int fact)
+{
+  return int(config.camZoom * fact * 0.5);
+}
+
 int randomInt(int i1, int i2)
 {
   return round(random(i1, i2));

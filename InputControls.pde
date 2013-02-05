@@ -169,6 +169,15 @@ void keyPressed(){
     config.creatureExcess++;
   }
   
+  if(key=='z') // decrease camZoom
+  {
+    config.camZoom--;
+  }
+  
+  if(key=='Z') // increase camZoom
+  {
+    config.camZoom++;
+  }
   
   ////////////////
   // Keystone corner positioning via keyboard 

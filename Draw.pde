@@ -1,12 +1,12 @@
 void processNewFrame()
 {
   video.read();
-  videoinput.copy(video, 0, 0, cWidth, cHeight, 0, 0, config.videores, config.videores);
+  videoinput.copy(video, camZoomAspect(4), camZoomAspect(3), cWidth - (camZoomAspect(4) * 2), cHeight - (camZoomAspect(3) * 2), 0, 0, config.videores, config.videores);
   //flobs = flob.track(flob.binarize(videoinput)); // flob.track seems not able to handle multiple trackedBlobs for longer???? 
   flobs = flob.calcsimple(flob.binarize(videoinput));
   
   
-  videoinputBD.copy(video, 0, 0, cWidth, cHeight, 0, 0, config.videores, config.videores); // uses original videoinput, adjust edgeTresh!!!
+  videoinputBD.copy(video, camZoomAspect(4), camZoomAspect(3), cWidth - (camZoomAspect(4) * 2), cHeight - (camZoomAspect(3) * 2), 0, 0, config.videores, config.videores); // uses original videoinput, adjust edgeTresh!!!
   //videoinputBD.copy(flob.getSrcImage(), 0, 0, cWidth, cHeight, 0, 0, config.videores, config.videores); // uses difference optimized image from flob, adjust edgeTresh!!!
   fastblur(videoinputBD, 2);
   blobDetection.computeBlobs(videoinputBD.pixels);

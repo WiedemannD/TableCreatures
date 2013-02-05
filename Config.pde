@@ -4,8 +4,8 @@ class Config
   // to add config vars: edit varCount and varNames, add var, edit functions save and load (yeah I know this sucks ...)
   ///////////////
   
-  int varCount = 10;
-  String[] varNames = {"tresh", "fade", "om", "videores", "videotex", "trackedBlobLifetime", "edgeTresh", "posDiscrimination", "debug", "creatureExcess"};
+  int varCount = 11;
+  String[] varNames = {"tresh", "fade", "om", "videores", "videotex", "trackedBlobLifetime", "edgeTresh", "posDiscrimination", "debug", "creatureExcess", "camZoom"};
   
   // Flob vars
   int tresh = 32;
@@ -22,6 +22,7 @@ class Config
   // general vars
   Boolean debug;
   int creatureExcess;
+  int camZoom;
   
   // objects for general use
   PApplet main;
@@ -53,6 +54,7 @@ class Config
      varsToSave[7] = varNames[7] + " = " + posDiscrimination;
      varsToSave[8] = varNames[8] + " = " + debug;
      varsToSave[9] = varNames[9] + " = " + creatureExcess;
+     varsToSave[10] = varNames[10] + " = " + camZoom;
      
      saveStrings("data/config.txt", varsToSave);
      
@@ -78,6 +80,7 @@ class Config
     posDiscrimination =     boolean(getSavedValue(varsLoaded[7]));
     debug =                 boolean(getSavedValue(varsLoaded[8]));
     creatureExcess =        Integer.parseInt(getSavedValue(varsLoaded[9]));
+    camZoom =               Integer.parseInt(getSavedValue(varsLoaded[10]));
   }
   
   String getSavedValue(String str)

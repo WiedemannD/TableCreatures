@@ -15,8 +15,8 @@ import ddf.minim.*;
 Config config;
 int vWidth = 1280;//1024;
 int vHeight = 1024;//768; 
-int cWidth = 320;
-int cHeight = 240;
+int cWidth = 320;//640; //320; // set to higher resolution by heavy zoom --> hit on performance
+int cHeight = 240;//480; //240; // set to higher resolution by heavy zoom --> hit on performance
 int occupationDist = 30; 
 int cInteractionDist = 30;
 int randomDestDist = 10;
