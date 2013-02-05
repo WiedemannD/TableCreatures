@@ -7,4 +7,8 @@ class GroundEffect
   void draw()
   {
   }
+  
+  void remove()
+  {
+  }
 }

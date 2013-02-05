@@ -1,3 +1,8 @@
+int randomInt(int i1, int i2)
+{
+  return round(random(i1, i2));
+}
+
 float average(float a, float b)
 {
   return a - ((a - b) / 2);

@@ -10,7 +10,7 @@ class Creature
   float dyingTime = 1.5;
   float timer = 0;
   float matingPossibility = 0.35; // second parameter of random(-1, matingPossibility);
-  int typeCount = 0;
+  int typeCount = 1;
 
   float x, y, indiSpeed; // position, rotation and individual creature type speed
   float rot = 0;
@@ -30,6 +30,7 @@ class Creature
   float growingTime = 20.0;
   Ani growingAni;
   Boolean occupying = false;
+  GroundEffect occupyingEffect = null;
   Boolean cInteracting = false;
   int cInteraction = 0;
   Boolean cInteractionDominant = true;
@@ -41,6 +42,7 @@ class Creature
   Creature linkedCreature;
   PVector randomDest;
   Boolean movingAway = false;
+  Sound sound;
 
 
   Creature(Boolean autoRandom, ColourTable cT, int t, Boolean cGrowing)
@@ -81,7 +83,8 @@ class Creature
       }
       else
       {
-        type = int(random(0, typeCount));
+        float randTypeF = random(typeCount);
+        type = round(randTypeF);
       }
       
       
@@ -187,7 +190,9 @@ class Creature
       if (!occupying)
       {
         transformFace(null);
+        scaleUpDown(null);
         drawBodyParts = true;
+        animateOccupyingEffect(occupying);
       }
   
       if (drawBodyParts)
@@ -386,8 +391,8 @@ class Creature
         //println("randomDest "+randomDest.x+"  "+randomDest.y);
       }
       
-      
-      //action = 6;
+      ///////////// UNCOMMENT AFTER DEBUG 
+      action = 6;
     }
 
     //println(creatures.indexOf(this)+"   action "+action);
@@ -400,6 +405,7 @@ class Creature
     {
       case -1: // do something else or nothing maybe
         //stopBodyParts();
+        unOccupyTrackedObject();
         break;
   
       case 0: // keep occupying
@@ -411,7 +417,7 @@ class Creature
         break;
   
       case 2: // move to next unoccupied trackedObject
-        occupying = false;
+        unOccupyTrackedObject();
         face.smile(true);
   
         c = new PVector(x, y); // creature
@@ -427,11 +433,14 @@ class Creature
         if (dist(x, y, destX, destY) <= occupationDist)
         {
           occupyTrackedObject(destTO);
+          
+          sound = new Sound(randomInt(Sound.TYPE_YAY, Sound.TYPE_YAY2), x, y);
         }
   
         break;
   
       case 3: // move to next not occupying and not interacting creature
+        unOccupyTrackedObject();
         face.smile(true);
   
         c = new PVector(x, y); // creature
@@ -451,6 +460,8 @@ class Creature
         break;
         
       case 4: // interacting with another creature
+        unOccupyTrackedObject();
+        
         // animate interaction        
         if(frameCount < cInteractionEnd)
         {
@@ -503,6 +514,7 @@ class Creature
         break;
         
       case 6: // random movement
+        unOccupyTrackedObject();
         face.smile(true);
   
         c = new PVector(x, y); // creature
@@ -564,6 +576,7 @@ class Creature
       {
         // negative interaction --> killing
         cInteraction = -1;
+        sound = new Sound(randomInt(Sound.TYPE_UHOH, Sound.TYPE_UHOH2), x, y);
         
         // desc who killes --> is dominant
         cInteractionDominant = true;
@@ -572,6 +585,11 @@ class Creature
         {
           cInteractionDominant = false;
         }  
+      }
+      else
+      {
+        // positive interaction --> mating
+        sound = new Sound(Sound.TYPE_MATING, x, y);
       }
       
       // JUST FOR TESTING love making!!
@@ -613,9 +631,19 @@ class Creature
         break;
         
       case 1: // twitter alien
-        
+        scaleUpDown(tO);
+        animateOccupyingEffect(occupying);
         
         break;
+    }
+  }
+  
+  void unOccupyTrackedObject()
+  {
+    if(occupying)
+    {
+      occupying = false;
+      sound = new Sound(randomInt(Sound.TYPE_WOHO, Sound.TYPE_WOHO2), x, y);
     }
   }
   
@@ -790,12 +818,45 @@ class Creature
     }
   }
   
+  void scaleUpDown(TrackedObject tO)
+  {
+    if (tO != null)
+    {
+      scale = lerp(scale, 1.3, 0.1);
+    }
+    else
+    {
+      scale = lerp(scale, 1.0, 0.1);
+    }
+  }
+  
   void grow()
   {
     if(growingAni == null)
     {
       growingAni = Ani.from(this, growingTime, "scale", 0.5, Ani.SINE_OUT, "onEnd:moveOn");
+      sound = new Sound(randomInt(Sound.TYPE_WEE, Sound.TYPE_WEE2), x, y);
     }
+  }
+  
+  void animateOccupyingEffect(Boolean doIt)
+  {
+    switch(type)
+    {
+      case 1: // twitter alien
+        if(doIt && occupyingEffect == null)
+        {
+          occupyingEffect = new CirclePulse(x, y, 0, col);
+          groundEffects.add(occupyingEffect);
+        }
+        else if(!doIt && occupyingEffect != null)
+        {
+          occupyingEffect.remove();
+          occupyingEffect = null;
+        }
+        break;
+    }
+    
   }
   
   void animateFight()
@@ -888,6 +949,8 @@ class Creature
   {
     groundEffects.add(new Splash(x, y, cTable, int(random(7, 10))));
     creatures.remove(this);
+    
+    sound = new Sound(Sound.TYPE_SMACK, x, y);
     //System.gc();
   }
 }
