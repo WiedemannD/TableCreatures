@@ -10,7 +10,7 @@ class Creature
   float dyingTime = 1.5;
   float timer = 0;
   float matingPossibility = 0.35; // second parameter of random(-1, matingPossibility);
-  int typeCount = 1;
+  int typeCount = 2;
 
   float x, y, indiSpeed; // position, rotation and individual creature type speed
   float rot = 0;
@@ -93,8 +93,10 @@ class Creature
       }
       else
       {
-        float randTypeF = random(typeCount);
+        float randTypeF = random(-0.4, typeCount + 0.4);
         type = round(randTypeF);
+        
+        //println("randTypeF "+randTypeF+"  type"+type);
       }
       
       
@@ -179,6 +181,36 @@ class Creature
           face = new Face(0, 0, col, 1);
   
           break;
+        
+        case 2: // triangle
+          indiSpeed = 1.0;
+          
+          col = cTable.findColour(random(0, 1));
+          
+          bodyParts.add(new BodyPart(3, (-unitSize * 2) - 5.5, (-unitSize * 2) - 15, 50, 50, 0, cTable.findColour(random(0, 1)), 0));
+          bodyParts.add(new BodyPart(3, (-unitSize * 2) - 5.5, (-unitSize * 2) - 15, 50, 50, 0, cTable.findColour(random(0, 1)), 0));
+          bodyParts.add(new BodyPart(3, (-unitSize * 2) - 5.5, (-unitSize * 2) - 15, 50, 50, 0, col)); // head
+          
+          aniTime = 2.0; 
+          
+          ani1 = new Ani(bodyParts.get(0), aniTime * 3, "rot", TWO_PI, Ani.LINEAR);
+          anis.add(ani1);
+          ani2 = new Ani(bodyParts.get(1), aniTime * 2, "rot", TWO_PI, Ani.LINEAR);
+          anis.add(ani2);
+          ani3 = new Ani(bodyParts.get(2), aniTime, "rot", TWO_PI, Ani.LINEAR);
+          anis.add(ani3);
+          
+          for (int i = 0; i < anis.size(); i++)
+          {
+            Ani ani = (Ani) anis.get(i);
+  
+            ani.repeat();
+          }
+          
+          
+          face = new Face(0, 0, col, 2);
+  
+          break;
       }
     }
   }
@@ -203,6 +235,7 @@ class Creature
         scaleUpDown(null);
         drawBodyParts = true;
         animateOccupyingEffect(occupying);
+        scaleTriangles(false);
       }
   
       if (drawBodyParts)
@@ -672,6 +705,11 @@ class Creature
         animateOccupyingEffect(occupying);
         sendTweets();
         break;
+        
+      case 2: // triangle
+        moveBodyParts();
+        scaleTriangles(true);
+        break;
     }
   }
   
@@ -852,6 +890,29 @@ class Creature
       face.y = 0;
       face.scale = lerp(face.scale, 1, 0.1);
       face.drawBackground = false;
+    }
+  }
+  
+  void scaleTriangles(Boolean big)
+  {
+    if(type == 2)
+    {
+      float lerpFact = 0.05;
+      
+      if(big)
+      {
+        BodyPart t0 = (BodyPart) bodyParts.get(0);
+        t0.scale = lerp(t0.scale, 2.0, lerpFact);
+        BodyPart t1 = (BodyPart) bodyParts.get(1);
+        t1.scale = lerp(t1.scale, 1.3, lerpFact);    
+      }
+      else
+      {
+        BodyPart t0 = (BodyPart) bodyParts.get(0);
+        t0.scale = lerp(t0.scale, 0.0, lerpFact);
+        BodyPart t1 = (BodyPart) bodyParts.get(1);
+        t1.scale = lerp(t1.scale, 0.0, lerpFact);    
+      }
     }
   }
   

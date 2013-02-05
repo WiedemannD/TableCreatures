@@ -41,7 +41,7 @@ Boolean drawFlobs = false;
 Boolean drawTrackedObjects = false;
 Boolean drawStats = true;
 Boolean mouseKlickSound = false;
-Boolean populateCreatures = false;
+Boolean populateCreatures = true; // DEBUG: turn true for installation
 int generalCalibration = -1;
 
 // keystone vars
@@ -89,9 +89,9 @@ void setup(){
   setupTweets();
   
   
-  
+  /*
   // test creatures
-  Creature c1 = new Creature(true, null, 1, false);
+  Creature c1 = new Creature(true, null, 2, false);
   c1.x = 200;
   c1.y = vHeight / 2;
   c1.name = "c1";
@@ -112,7 +112,7 @@ void setup(){
   c3.y = 700;
   c3.name = "c3";
   creatures.add(c3);
-  
+  */
 }
 
 

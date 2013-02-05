@@ -1,7 +1,7 @@
 class BodyPart
 {
   int type = 0;
-  float x, y, w, h, rot;
+  float x, y, w, h, rot, scale;
   color col;
   
   BodyPart(int t, float posX, float posY, float oWidth, float oHeight, float rotation, color oColor)
@@ -13,6 +13,19 @@ class BodyPart
     h = oHeight;
     rot = rotation;
     col = oColor;
+    scale = 1;
+  }
+  
+  BodyPart(int t, float posX, float posY, float oWidth, float oHeight, float rotation, color oColor, float s)
+  {
+    type = t;
+    x = posX;
+    y = posY;
+    w = oWidth;
+    h = oHeight;
+    rot = rotation;
+    col = oColor;
+    scale = s;
   }
   
   void draw()
@@ -38,6 +51,15 @@ class BodyPart
         case 2: // circle
           o.translate(-w / 2, -h / 2);
           o.ellipse(x, y, w, h);
+          break;
+        
+        case 3: // triangle
+          o.scale(scale);
+          o.translate(0, h / 5);
+          o.rotate(rot);
+          o.translate(x, y);
+          
+          o.triangle(w / 2, 4, w, h, 0, h);
           break;  
       }
     
