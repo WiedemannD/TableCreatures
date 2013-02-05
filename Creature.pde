@@ -45,6 +45,7 @@ class Creature
   float randMovementSoundAfter = 30.0; // sec
   Boolean movingAway = false;
   Sound sound;
+  TweetAni currentTweetAni = null;
 
 
   Creature(Boolean autoRandom, ColourTable cT, int t, Boolean cGrowing)
@@ -662,7 +663,7 @@ class Creature
       case 1: // twitter alien
         scaleUpDown(tO);
         animateOccupyingEffect(occupying);
-        
+        sendTweet();
         break;
     }
   }
@@ -865,6 +866,15 @@ class Creature
     {
       growingAni = Ani.from(this, growingTime, "scale", 0.5, Ani.SINE_OUT, "onEnd:moveOn");
       sound = new Sound(randomInt(Sound.TYPE_WEE, Sound.TYPE_WEE2), x, y);
+    }
+  }
+  
+  void sendTweet()
+  {
+    if(currentTweetAni == null)
+    {
+      TweetAni t = new TweetAni(50, 50, 400, 400, 0, color(0, 255, 0));
+      groundEffects.add(t);
     }
   }
   

@@ -25,6 +25,7 @@ int moveAroundDist = 50;
 int fps = 60;
 int camId = 0;
 PFont font = createFont("monaspace", 20);
+PFont font2;
 String[] camNames = {"USB 2.0 Camera", "FaceTime HD-Kamera (integriert)"}; //"USB 2.0 Camera";
 Capture video;
 PImage videoinput;
@@ -78,7 +79,8 @@ void setup(){
   {
     printCamNames();
   }
-  
+
+  font2 = loadFont("Menlo-Bold-20.vlw");  
   setupVideoCapture();
   setupFlob();
   setupBlobDetection();
@@ -98,13 +100,13 @@ void setup(){
   //c.col = color(200, 50, 200);
   creatures.add(c1);
   
-  /*
-  Creature c2 = new Creature(true, null, -1, false);
-  c2.x = 400;
+  
+  Creature c2 = new Creature(true, null, 1, false);
+  c2.x = 800;
   c2.y = vHeight / 2;
   c2.name = "c2";
   creatures.add(c2);
-  */
+  
 }
 
 
@@ -151,15 +153,6 @@ void draw(){
     drawTrackedObjects(true, true, true);
   }
 
-  /*if(tweets.isAvailable())
-  {
-    for(int i = 0; i < tweets.tweets.size(); i++)
-    {
-      TweetsTweet t = (TweetsTweet) tweets.tweets.get(i);
-      println(t.date + " wrote " + t.user + ": " + t.text);
-    }
-  }*/
-  
   
   o.endDraw();
   background(0);
@@ -169,6 +162,7 @@ void draw(){
   {
     drawStats();
   }
+  
 }
 
 

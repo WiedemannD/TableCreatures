@@ -55,6 +55,7 @@ public class Tweets extends Thread
     query = new Query(querySearchParam);
     query.setCount(reqPerPage);
     
+    println("Tweets: started");
     
     ///////////////
     // Thread stuff
